@@ -1,15 +1,22 @@
-package nebula
+package edge
 
 import (
 	"fmt"
-	"nebula_tron/nebula"
+
+	"github.com/PsjNick/go_nebula/interface_n"
+	"github.com/PsjNick/go_nebula/nebula"
+	"github.com/PsjNick/go_nebula/schema"
 )
 
 // CreateEdgeIfNotExists 检查并创建 Nebula 边类型
-func CreateEdgeIfNotExists(edgeName, edgeSchema, comment string) error {
+func CreateEdgeIfNotExists[T interface_n.BaseModeN](edge T) error {
 	if nebula.NebulaSessionPool == nil {
 		return fmt.Errorf("the Nebula session pool is not initialized")
 	}
+
+	edgeName := edge.GetName()
+	edgeSchema := schema.GenNebulaSchema(edge)
+	comment := edge.GetComment()
 
 	// 直接尝试创建边类型，如果已存在会返回特定错误
 	createEdgeStmt := fmt.Sprintf("CREATE EDGE IF NOT EXISTS `%s` (%s) COMMENT = \"%s\"", edgeName, edgeSchema, comment)

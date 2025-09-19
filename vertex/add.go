@@ -4,17 +4,12 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/PsjNick/go_nebula/model"
+	"github.com/PsjNick/go_nebula/interface_n"
 	"github.com/PsjNick/go_nebula/nebula"
 )
 
-type Vertex interface {
-	model.BaseTagModel
-	GetTagName() string
-}
-
 // INSERT VERTEX IF NOT EXISTS t2 (name, age) VALUES "1":("n3", 14);
-func AddVertexIfNotExists[T Vertex](id string, vertex T) (err error) {
+func AddVertexIfNotExists[T interface_n.BaseModeN](id string, vertex T) (err error) {
 	if nebula.NebulaSessionPool == nil {
 		return fmt.Errorf("the Nebula session pool is not initialized")
 	}
@@ -25,7 +20,7 @@ func AddVertexIfNotExists[T Vertex](id string, vertex T) (err error) {
 	var fields []string
 	var values []interface{}
 
-	tagName = vertex.GetTagName()
+	tagName = vertex.GetName()
 	vertexID = id
 
 	t := reflect.TypeOf(vertex)

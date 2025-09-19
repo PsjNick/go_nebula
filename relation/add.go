@@ -4,15 +4,11 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/PsjNick/go_nebula/model"
+	"github.com/PsjNick/go_nebula/interface_n"
 	"github.com/PsjNick/go_nebula/nebula"
 )
 
-type Edge interface {
-	model.BaseEdgeModel
-}
-
-func AddEdge[T Edge](edge T, vertexIdFrom string, vertexIdTo string) (err error) {
+func AddEdge[T interface_n.BaseModeN](edge T, vertexIdFrom string, vertexIdTo string) (err error) {
 
 	if nebula.NebulaSessionPool == nil {
 		return fmt.Errorf("the Nebula session pool is not initialized")
@@ -23,7 +19,7 @@ func AddEdge[T Edge](edge T, vertexIdFrom string, vertexIdTo string) (err error)
 	var fields []string
 	var values []interface{}
 
-	edgeName = edge.GetEdgeName()
+	edgeName = edge.GetName()
 
 	t := reflect.TypeOf(edge)
 
