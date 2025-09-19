@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"reflect"
 
 	"github.com/PsjNick/go_nebula/interface_n"
@@ -12,7 +13,9 @@ func GenName(t interface_n.BaseModeN) string {
 		return t.Name()
 	}
 
-	return reflect.TypeOf(t).Elem().Name()
+	fmt.Printf("%T", t)
+
+	return reflect.TypeOf(t).Name()
 
 }
 
