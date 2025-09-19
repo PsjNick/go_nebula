@@ -12,7 +12,7 @@ func (m BaseEdgeModel) GetName() string {
 	return m.Name
 }
 
-func (m BaseEdgeModel) GetCommon() string {
+func (m BaseEdgeModel) GetComment() string {
 	return m.Common
 }
 

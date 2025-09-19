@@ -8,8 +8,9 @@ import (
 	"github.com/PsjNick/go_nebula/schema"
 )
 
-// CsreateTagIfNotExists 检查并创建 Nebula 标签
-func CreateTagIfNotExists[T interface_n.BaseModeN](tag T) error {
+// todo 暂时简单创建
+// todo 后期对比数据对象，正对性修改属性
+func CreateTag[T interface_n.BaseModeN](tag T) error {
 	if nebula.NebulaSessionPool == nil {
 		return fmt.Errorf("the Nebula session pool is not initialized")
 	}

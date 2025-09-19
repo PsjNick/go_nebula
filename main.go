@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/PsjNick/go_nebula/config"
+	"github.com/PsjNick/go_nebula/edge"
 	"github.com/PsjNick/go_nebula/model"
 	"github.com/PsjNick/go_nebula/nebula"
 	"github.com/PsjNick/go_nebula/tag"
@@ -34,7 +35,7 @@ func main() {
 
 	type MyTag struct {
 		model.BaseTagModel
-		TxId string `json:"txId" n_name:"tx_id" n_type:"string" n_allow_null:"false" n_default:"" n_comment:"交易哈希"`
+		TxId string `n_name:"tx_id" n_type:"string" n_allow_null:"false" n_default:"" n_comment:"交易哈希"`
 	}
 
 	myTag := MyTag{
@@ -45,8 +46,44 @@ func main() {
 		TxId: "asdasdasdasdasdczxczxzxc",
 	}
 
-	err = tag.CreateTagIfNotExists(myTag)
+	err = tag.CreateTag(myTag)
 
+	if err != nil {
+		panic(err)
+	}
+
+	type EdgeBaseAmount struct {
+		AmountInteger       string `json:"amountInteger" n_name:"amount_integer" n_type:"string" n_allow_null:"true" n_default:"\"0\"" n_comment:"amount 整数部分"`
+		AmountIntegerPart_1 int64  `json:"amountIntegerPart_1" n_name:"amount_integer_part_1" n_type:"int64" n_allow_null:"true" n_default:"0" n_comment:"amount 整数部分 0~64位"`
+		AmountIntegerPart_2 int64  `json:"amountIntegerPart_2" n_name:"amount_integer_part_2" n_type:"int64" n_allow_null:"true" n_default:"0" n_comment:"amount 整数部分 64~128位"`
+		AmountIntegerPart_3 int64  `json:"amountIntegerPart_3" n_name:"amount_integer_part_3" n_type:"int64" n_allow_null:"true" n_default:"0" n_comment:"amount 整数部分 128~192位"`
+		AmountIntegerPart_4 int64  `json:"amountIntegerPart_4" n_name:"amount_integer_part_4" n_type:"int64" n_allow_null:"true" n_default:"0" n_comment:"amount 整数部分 192~256位"`
+
+		AmountDecimal       string `json:"amountDecimal" n_name:"amount_decimal" n_type:"string" n_allow_null:"true" n_default:"\"0\"" n_comment:"amount 小数部分"`
+		AmountDecimalPart_1 int64  `json:"amountDecimalPart_1" n_name:"amount_decimal_part_1" n_type:"int64" n_allow_null:"true" n_default:"0" n_comment:"amount 小数部分 0~64位"`
+		AmountDecimalPart_2 int64  `json:"amountDecimalPart_2" n_name:"amount_decimal_part_2" n_type:"int64" n_allow_null:"true" n_default:"0" n_comment:"amount 小数部分 64~128位"`
+		AmountDecimalPart_3 int64  `json:"amountDecimalPart_3" n_name:"amount_decimal_part_3" n_type:"int64" n_allow_null:"true" n_default:"0" n_comment:"amount 小数部分 128~192位"`
+		AmountDecimalPart_4 int64  `json:"amountDecimalPart_4" n_name:"amount_decimal_part_4" n_type:"int64" n_allow_null:"true" n_default:"0" n_comment:"amount 小数部分 192~256位"`
+
+		AmtUsd float64 `json:"amtUsd" n_name:"amt_usd" n_type:"double" n_allow_null:"true" n_default:"0.0" n_comment:"美元价值"`
+		AmtCny float64 `json:"amtCny" n_name:"amt_cny" n_type:"double" n_allow_null:"true" n_default:"0.0" n_comment:"人民币价值"`
+	}
+
+	type MyEdge struct {
+		model.BaseEdgeModel
+		EdgeBaseAmount
+		TxId string `n_name:"tx_id" n_type:"string" n_allow_null:"false" n_default:"" n_comment:"交易哈希"`
+	}
+
+	myEdget := MyEdge{
+		BaseEdgeModel: model.BaseEdgeModel{
+			Name:   "MyEdge",
+			Common: "MyEdges 测试用",
+		},
+		TxId: "asdasdasdasdasdczxczxzxc",
+	}
+
+	err = edge.CreateEdge(myEdget)
 	if err != nil {
 		panic(err)
 	}

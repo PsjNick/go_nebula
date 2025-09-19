@@ -8,8 +8,9 @@ import (
 	"github.com/PsjNick/go_nebula/schema"
 )
 
-// CreateEdgeIfNotExists 检查并创建 Nebula 边类型
-func CreateEdgeIfNotExists[T interface_n.BaseModeN](edge T) error {
+// todo 暂时简单创建
+// todo 后期对比属性，进行增改删除
+func CreateEdge[T interface_n.BaseModeN](edge T) error {
 	if nebula.NebulaSessionPool == nil {
 		return fmt.Errorf("the Nebula session pool is not initialized")
 	}
