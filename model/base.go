@@ -1,34 +1,39 @@
 package model
 
-type BaseEdgeModel struct {
-	Name   string `json:"edgeName"`
-	Common string `json:"edgeCommon"`
-}
+import (
+	"reflect"
 
-func (m BaseEdgeModel) GetName() string {
-	if m.Name == "" {
-		panic("edgeName is empty")
+	"github.com/PsjNick/go_nebula/interface_n"
+)
+
+func GenName(t interface_n.BaseModeN) string {
+
+	if t.Name() != "" {
+		return t.Name()
 	}
-	return m.Name
+
+	return reflect.TypeOf(t).Elem().Name()
+
 }
 
-func (m BaseEdgeModel) GetComment() string {
-	return m.Common
+type BaseEdgeModel struct {
+}
+
+func (BaseEdgeModel) Name() string {
+	return ""
+}
+
+func (m BaseEdgeModel) Comment() string {
+	return ""
 }
 
 type BaseTagModel struct {
-	Name   string `json:"tagName"`
-	Common string `json:"tagCommon"`
 }
 
-func (m BaseTagModel) GetName() string {
-
-	if m.Name == "" {
-		panic("tag name is empty")
-	}
-
-	return m.Name
+func (BaseTagModel) Name() string {
+	return ""
 }
-func (m BaseTagModel) GetComment() string {
-	return m.Common
+
+func (m BaseTagModel) Comment() string {
+	return ""
 }

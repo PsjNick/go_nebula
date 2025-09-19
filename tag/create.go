@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/PsjNick/go_nebula/interface_n"
+	"github.com/PsjNick/go_nebula/model"
 	"github.com/PsjNick/go_nebula/nebula"
 	"github.com/PsjNick/go_nebula/schema"
 )
@@ -15,9 +16,9 @@ func CreateTag[T interface_n.BaseModeN](tag T) error {
 		return fmt.Errorf("the Nebula session pool is not initialized")
 	}
 
-	tagName := tag.GetName()
+	tagName := model.GenName(tag)
+	comment := tag.Comment()
 	tagSchema := schema.GenNebulaSchema(tag)
-	comment := tag.GetComment()
 
 	// 直接尝试创建标签，如果已存在会自动跳过
 	createTagStmt := fmt.Sprintf("CREATE TAG IF NOT EXISTS `%s` (%s) COMMENT = \"%s\"", tagName, tagSchema, comment)
